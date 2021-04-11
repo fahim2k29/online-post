@@ -20,9 +20,15 @@ const useStyles = makeStyles({
 });
 const Comment = (props) => {
     const {name, email, body, id} = props.comment;
-    const{url} = props.photo;
     const classes = useStyles();
+    const [photo, setPhoto] = useState({});
     
+    useEffect( () => {
+        const url = `https://jsonplaceholder.typicode.com/photos/${id}?url`;
+        fetch(url)
+        .then(res => res.json())
+        .then( data => setPhoto(data))
+    }, [])
     
     return (
         <div style={{float:"left", width:"40%", margin:"5px"}}>
@@ -31,7 +37,7 @@ const Comment = (props) => {
                 
                 <CardMedia
                     className={classes.media}
-                    image={url}
+                    image={photo.url}
                     title="Contemplative Reptile"
                 />                   
                     <CardContent>                                                
